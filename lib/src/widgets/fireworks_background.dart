@@ -11,6 +11,7 @@ class FireworksBackground extends StatelessWidget {
     required this.fireworksNumber,
     this.size,
     this.hasRocket = true,
+    this.onBackground = true,
   }) : super(key: key);
 
   final FireworkBackgroundController controller;
@@ -18,22 +19,35 @@ class FireworksBackground extends StatelessWidget {
   final Widget child;
   final Size? size;
   final bool hasRocket;
+  final bool onBackground;
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        hasRocket
-            ? FireworksHaveRocket(
-                controller: controller,
-                fireworksNumber: fireworksNumber,
-                size: size,
-              )
-            : FireworksNoRocket(
-                controller: controller,
-                fireworksNumber: fireworksNumber,
-              ),
+        if (onBackground)
+          hasRocket
+              ? FireworksHaveRocket(
+                  controller: controller,
+                  fireworksNumber: fireworksNumber,
+                  size: size,
+                )
+              : FireworksNoRocket(
+                  controller: controller,
+                  fireworksNumber: fireworksNumber,
+                ),
         child,
+        if (!onBackground)
+          hasRocket
+              ? FireworksHaveRocket(
+                  controller: controller,
+                  fireworksNumber: fireworksNumber,
+                  size: size,
+                )
+              : FireworksNoRocket(
+                  controller: controller,
+                  fireworksNumber: fireworksNumber,
+                ),
       ],
     );
   }
